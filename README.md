@@ -14,7 +14,8 @@ load increases.
 same arrival schedule, same SLO. Measure where each engine starts
 dropping SLO-compliant throughput.
 
-**Deliverable.** One matplotlib graph: x-axis = target request rate
+**Deliverable.** 
+One matplotlib graph: x-axis = target request rate
 (RPS); y-axis = goodput (RPS, requests whose per-request TTFT *and*
 TPOT both satisfy thresholds). One line per engine. Saturation rate
 annotated for each.
@@ -34,7 +35,7 @@ locally. The headline graph in this repo was produced in synthesis mode.
 ## 2. Quick start
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/yellowsubmarine372/friendli-vllm-bench.git
 cd friendli-vllm-bench
 uv sync --all-groups
 ```
