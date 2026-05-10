@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# uv
+.venv/
+# Note: uv.lock IS committed (per SPEC §7 reproducibility requirements)
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Project: results — raw data and metadata are gitignored,
+# but the validation reference graph and summary should be committed.
+results/raw/
+results/run_metadata.json
+
+# Allow the validation reference artifacts to be committed:
+!results/goodput_comparison.png
+!results/goodput_comparison.pdf
+!results/summary.json
+!results/summary.csv
+
+# Build artifacts
+build/
+dist/
+*.egg
+
+# OS
+Thumbs.db
