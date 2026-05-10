@@ -19,7 +19,7 @@ The deliverable optimizes for **measurement correctness** and **reproducibility*
 This implementation deliberately follows established patterns from the LLM inference benchmarking community. README must cite these.
 
 - **vLLM `benchmark_serving.py`** (https://github.com/vllm-project/vllm/blob/main/benchmarks/) — primary structural reference. The backend plug-in pattern (`RequestFuncInput` / `RequestFuncOutput` / `ASYNC_REQUEST_FUNCS`), the open-loop Poisson dispatcher, the synthetic prompt generation, and the output format (JSON summary + per-request raw) are directly adapted from this code.
-- **NVIDIA GenAI-Perf** (https://docs.nvidia.com/nim/benchmarking/llm/latest/overview.html) — authoritative source for metric definitions. ITL = (E2E − TTFT) / (output_tokens − 1), with first token excluded. Empty-chunk skipping convention.
+- **NVIDIA GenAI-Perf** (https://docs.nvidia.com/nim/benchmarking/llm/latest/metrics.html) — authoritative source for metric definitions. ITL = (E2E − TTFT) / (output_tokens − 1), with first token excluded. Empty-chunk skipping convention.
 - **Anyscale LLMPerf** (https://github.com/ray-project/llmperf) — referenced in README footnote for awareness of the historical TTFT-in-ITL discrepancy.
 - **DistServe (OSDI '24)** — source for goodput as a per-request SLO-compliance metric.
 - **FriendliAI public benchmarks** — sources for synthetic Friendli line modeling (TCache blog, AWQ blog, Mixtral benchmark, Qwen3 benchmark). Cited in `bench/synthetic.py` docstrings.
@@ -175,7 +175,7 @@ class RequestFuncOutput:
     def tpot(self) -> float | None:
         # GenAI-Perf convention: ITL/TPOT excludes first token
         # = (E2E - TTFT) / (output_tokens - 1)
-        # Source: https://docs.nvidia.com/nim/benchmarking/llm/latest/overview.html
+        # Source: https://docs.nvidia.com/nim/benchmarking/llm/latest/metrics.html
         if (self.first_token_time is None or self.last_token_time is None
             or self.output_tokens <= 1):
             return None
@@ -553,8 +553,8 @@ def plot_goodput(
 - x-axis: target request rate (RPS). Linear scale.
 - y-axis: goodput (RPS). Linear scale.
 - Two lines:
-  - vLLM: `color="#1f77b4"`, `linestyle="--"`, `marker="o"`, label `"vLLM (measured)"`.
-  - Friendli: `color="#ff7f0e"`, `linestyle="-"`, `marker="s"`. Label `"Friendli (modeled from public benchmarks)"` if synthesized, else `"Friendli (measured)"`.
+  - vLLM: `color="#ff7f0e"`, `linestyle="--"`, `marker="o"`, label `"vLLM (measured)"`.
+  - Friendli: `color="#1f77b4"`, `linestyle="-"`, `marker="s"`. Label `"Friendli (modeled from public benchmarks)"` if synthesized, else `"Friendli (measured)"`.
 - Reference line: `y = x` in light gray dashed (`color="#888"`, `alpha=0.5`), label `"Perfect goodput"`.
 - Saturation annotation: for each engine line, identify the rate at which goodput diverges from `y=x` by more than 10%. Vertical dotted line + text `"saturates ≈ X RPS"`.
 - Title: `"Goodput under Open-Loop Poisson Load"`.
