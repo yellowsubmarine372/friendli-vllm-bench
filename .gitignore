@@ -25,16 +25,19 @@ __pycache__/
 *.swo
 .DS_Store
 
-# Project: results — raw data and metadata are gitignored,
-# but the validation reference graph and summary should be committed.
+# Project: results — raw per-request data is gitignored;
+# the headline reference graph, summaries, and run metadata are committed.
 results/raw/
-results/run_metadata.json
 
-# Allow the validation reference artifacts to be committed:
+# Allow the headline reference artifacts to be committed:
 !results/goodput_comparison.png
 !results/goodput_comparison.pdf
 !results/summary.json
 !results/summary.csv
+!results/run_metadata.json
+
+# Aside-aside: prior runs kept around for comparison aren't tracked.
+results_initial/
 
 # Build artifacts
 build/
